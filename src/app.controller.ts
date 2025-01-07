@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { EventPattern, MessagePattern } from '@nestjs/microservices';
+import { Ctx, EventPattern, MessagePattern, Payload, RedisContext } from '@nestjs/microservices';
 
 @Controller()
 export class AppController {
@@ -11,10 +11,9 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @MessagePattern({ cmd: 'sum' })
-  accumulate(data: number[]): number {
-    console.log("sum triggered!");
-    return (data || []).reduce((a, b) => a + b);
+  @MessagePattern('notifications')
+  getNotifications(@Payload() data: number[], @Ctx() context: RedisContext) {
+    console.log(`Channel: ${context.getChannel()}`);
   }
 
   @EventPattern('user_created')
