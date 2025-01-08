@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Ctx, EventPattern, MessagePattern, Payload, RedisContext } from '@nestjs/microservices';
+import { Observable, from } from 'rxjs';
 
 @Controller()
 export class AppController {
@@ -16,6 +17,13 @@ export class AppController {
     console.log('Received data:', data);
     return 42; // Respond with a number or appropriate response
   }
+
+
+  @MessagePattern({ cmd: 'add' })
+  add(data: number[]): Observable<number> {
+    return from([1, 2, 3]);
+  }
+
 
   @EventPattern('user_created')
   async handleUserCreated(data: Record<string, unknown>) {
