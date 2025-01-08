@@ -11,9 +11,10 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @MessagePattern('notifications')
-  getNotifications(@Payload() data: number[], @Ctx() context: RedisContext) {
-    console.log(`Channel: ${context.getChannel()}`);
+  @MessagePattern({ cmd: 'notifications' })
+  getNotifications(@Payload() data: number[], @Ctx() context: RedisContext): number {
+    console.log('Received data:', data);
+    return 42; // Respond with a number or appropriate response
   }
 
   @EventPattern('user_created')

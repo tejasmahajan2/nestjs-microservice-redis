@@ -8,8 +8,8 @@ async function bootstrap() {
     {
       transport: Transport.REDIS,
       options: {
-        host: process.env.REDIS_SERVICE_HOST,
-        port: +process.env.REDIS_SERVICE_PORT || 6379, // Microservice listens on this port
+        host: "localhost",
+        port: 6379, // Microservice listens on this port
       },
     }
   );
